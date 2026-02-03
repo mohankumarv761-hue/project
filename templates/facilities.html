@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+
+{% block title %}Hospital Facilities{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1 class="page-title">Hospital Facilities & Services</h1>
+
+    <section class="facilities-section">
+        <h2 class="section-title">Our Departments</h2>
+        <div class="departments-grid">
+            {% for dept in departments %}
+            <div class="department-card">
+                <h3>{{ dept.name }}</h3>
+                <p>{{ dept.description }}</p>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+
+    <section class="facilities-section">
+        <h2 class="section-title">Our Medical Team</h2>
+        <div class="doctors-grid">
+            {% for doctor in doctors %}
+            <div class="doctor-card">
+                <div class="doctor-icon">👨‍⚕️</div>
+                <h3>{{ doctor.full_name }}</h3>
+                <p class="specialization">{{ doctor.specialization }}</p>
+                <p class="contact-info">
+                    📧 {{ doctor.email }}<br>
+                    📞 {{ doctor.phone }}
+                </p>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+
+    <section class="facilities-section">
+        <h2 class="section-title">Laboratory Services</h2>
+        <div class="services-list">
+            <div class="service-item">
+                <h3>🧪 Blood Tests</h3>
+                <p>Complete blood count, cholesterol, glucose, and more</p>
+            </div>
+            <div class="service-item">
+                <h3>🔬 Diabetes Screening</h3>
+                <p>Advanced AI-powered diabetes risk assessment</p>
+            </div>
+            <div class="service-item">
+                <h3>📊 Health Checkup Packages</h3>
+                <p>Comprehensive health screening programs</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="facilities-section">
+        <h2 class="section-title">Pharmacy Services</h2>
+        <div class="pharmacy-info">
+            <p>🏪 24/7 Pharmacy Services Available</p>
+            <p>💊 Wide range of medications in stock</p>
+            <p>👨‍⚕️ Expert pharmacist consultation</p>
+            <p>🚚 Home delivery available</p>
+        </div>
+    </section>
+</div>
+{% endblock %}

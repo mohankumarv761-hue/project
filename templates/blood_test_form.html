@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+
+{% block title %}Blood Test Analysis - Doctor{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1 class="page-title">Blood Test Analysis Form</h1>
+    <p class="subtitle">Enter blood test values for AI-powered analysis</p>
+
+    <div class="form-container">
+        <form method="POST" action="{{ url_for('doctor_blood_test') }}" class="diagnosis-form">
+            <div class="form-group">
+                <label for="patient_id">Select Patient *</label>
+                <select id="patient_id" name="patient_id" required>
+                    <option value="">-- Choose a patient --</option>
+                    {% for patient in patients %}
+                    <option value="{{ patient.id }}">{{ patient.full_name }} (ID: {{ patient.id }})</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <h3 class="form-section-title">Blood Test Parameters</h3>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="hemoglobin">Hemoglobin (g/dL) *</label>
+                    <input type="number" id="hemoglobin" name="hemoglobin" required min="0" max="25" step="0.1" placeholder="e.g., 14.5">
+                    <small>Normal range: 12-16 g/dL (women), 14-18 g/dL (men)</small>
+                </div>
+
+                <div class="form-group">
+                    <label for="wbc_count">WBC Count (cells/μL) *</label>
+                    <input type="number" id="wbc_count" name="wbc_count" required min="0" max="50000" step="1" placeholder="e.g., 7500">
+                    <small>Normal range: 4,000-11,000 cells/μL</small>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="rbc_count">RBC Count (million/μL) *</label>
+                    <input type="number" id="rbc_count" name="rbc_count" required min="0" max="10" step="0.1" placeholder="e.g., 5.2">
+                    <small>Normal range: 4.5-5.5 million/μL (women), 5.0-6.0 million/μL (men)</small>
+                </div>
+
+                <div class="form-group">
+                    <label for="platelets">Platelet Count (cells/μL) *</label>
+                    <input type="number" id="platelets" name="platelets" required min="0" max="1000000" step="1000" placeholder="e.g., 250000">
+                    <small>Normal range: 150,000-400,000 cells/μL</small>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="cholesterol">Total Cholesterol (mg/dL) *</label>
+                    <input type="number" id="cholesterol" name="cholesterol" required min="0" max="500" step="1" placeholder="e.g., 180">
+                    <small>Desirable: < 200 mg/dL, Borderline: 200-239 mg/dL, High: ≥ 240 mg/dL</small>
+                </div>
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary">🤖 Analyze Blood Test</button>
+                <a href="{{ url_for('doctor_dashboard') }}" class="btn btn-secondary">Cancel</a>
+            </div>
+        </form>
+
+        <div class="info-box">
+            <h3>ℹ️ About This Analysis</h3>
+            <p>This tool uses machine learning (SVM) to analyze blood test parameters and identify potential abnormalities. The system compares values against normal ranges and patterns learned from medical data.</p>
+            <p><strong>Parameters Analyzed:</strong></p>
+            <ul>
+                <li><strong>Hemoglobin:</strong> Oxygen-carrying protein in red blood cells</li>
+                <li><strong>WBC Count:</strong> White blood cell count, indicates immune function</li>
+                <li><strong>RBC Count:</strong> Red blood cell count, important for oxygen transport</li>
+                <li><strong>Platelets:</strong> Critical for blood clotting</li>
+                <li><strong>Cholesterol:</strong> Indicator of cardiovascular health</li>
+            </ul>
+        </div>
+    </div>
+</div>
+{% endblock %}

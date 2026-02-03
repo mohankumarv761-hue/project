@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hospital Management System</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body style="background-color: aliceblue;">
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <h2>🏥 Hospital Management System</h2>
+            </div>
+            <div class="nav-links">
+                <a href="{{ url_for('index') }}">Home</a>
+                <a href="{{ url_for('facilities') }}">Facilities</a>
+                {% if session.user_id %}
+                    {% if session.role == 'doctor' %}
+                        <a href="{{ url_for('doctor_dashboard') }}">Dashboard</a>
+                    {% else %}
+                        <a href="{{ url_for('patient_dashboard') }}">Dashboard</a>
+                    {% endif %}
+                    <a href="{{ url_for('logout') }}">Logout ({{ session.full_name }})</a>
+                {% else %}
+                    <a href="{{ url_for('login') }}">Login</a>
+                {% endif %}
+            </div>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="footer">
+        <p> Hospital Management System.</p>
+        <p>THANKS FOR VISITING OUR WEBSITE!</p>
+    </footer>
+</body>
+</html>

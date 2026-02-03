@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block title %}Login - Hospital Management System{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="form-container">
+        <h1>Login to Your Account</h1>
+        
+        {% if error %}
+        <div class="error-message">
+            ⚠️ {{ error }}
+        </div>
+        {% endif %}
+
+        <form method="POST" action="{{ url_for('login') }}" class="login-form">
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" required placeholder="Enter your username">
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" required placeholder="Enter your password">
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-full">Login</button>
+        </form>
+
+        <div class="demo-credentials">
+            <h3>Demo Credentials</h3>
+            <div class="credentials-grid">
+                <div class="credential-box">
+                    <h4>Patient Login</h4>
+                    <p><strong>Username:</strong> patient1</p>
+                    <p><strong>Password:</strong> patient123</p>
+                </div>
+                <div class="credential-box">
+                    <h4>Doctor Login</h4>
+                    <p><strong>Username:</strong> dr.smith</p>
+                    <p><strong>Password:</strong> doctor123</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

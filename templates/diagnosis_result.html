@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block title %}Diagnosis Result{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="result-container">
+        <h1 class="page-title">🤖 AI Diagnosis Result</h1>
+        
+        <div class="result-card {% if result == 'Diabetic' or result == 'Abnormal' %}result-danger{% else %}result-success{% endif %}">
+            <h2>{{ test_type }} Result</h2>
+            <div class="result-badge">
+                {% if result == 'Diabetic' or result == 'Abnormal' %}
+                    ⚠️
+                {% else %}
+                    ✅
+                {% endif %}
+                <span>{{ result }}</span>
+            </div>
+        </div>
+
+        <div class="explanation-card">
+            <h3>📝 Patient-Friendly Explanation</h3>
+            <p class="explanation-text">{{ explanation }}</p>
+        </div>
+
+        <div class="info-box">
+            <h3>ℹ️ Important Information</h3>
+            <ul>
+                <li>This is an AI-assisted screening result, not a final diagnosis</li>
+                <li>The patient should review this with their healthcare provider</li>
+                <li>Follow-up tests may be recommended based on these results</li>
+                <li>The report has been saved and is accessible in the patient's dashboard</li>
+            </ul>
+        </div>
+
+        <div class="action-buttons">
+            <a href="{{ url_for('doctor_dashboard') }}" class="btn btn-primary">Return to Dashboard</a>
+            {% if test_type == 'Diabetes' %}
+                <a href="{{ url_for('doctor_diagnosis') }}" class="btn btn-secondary">Create Another Screening</a>
+            {% else %}
+                <a href="{{ url_for('doctor_blood_test') }}" class="btn btn-secondary">Create Another Blood Test</a>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

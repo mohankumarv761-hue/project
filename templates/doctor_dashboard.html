@@ -1,0 +1,101 @@
+{% extends "base.html" %}
+
+{% block title %}Doctor Dashboard{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1 class="page-title">Welcome, {{ session.full_name }}! 👨‍⚕️</h1>
+    <p class="subtitle">Manage patient diagnoses and view reports</p>
+
+    <div class="action-buttons">
+        <a href="{{ url_for('doctor_diagnosis') }}" class="btn btn-primary">
+            📋 Create Diabetes Screening
+        </a>
+        <a href="{{ url_for('doctor_blood_test') }}" class="btn btn-secondary">
+            🩸 Create Blood Test Report
+        </a>
+    </div>
+
+    <div class="dashboard-section">
+        <h2 class="section-title">👥 All Patients</h2>
+        <div class="patients-grid">
+            {% for patient in patients %}
+            <div class="patient-card">
+                <div class="patient-icon">👤</div>
+                <h3>{{ patient.full_name }}</h3>
+                <p>📧 {{ patient.email }}</p>
+                <p>📞 {{ patient.phone }}</p>
+                <p><strong>Patient ID:</strong> {{ patient.id }}</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="dashboard-section">
+        <h2 class="section-title">📊 Recent Reports Created by You</h2>
+        {% if my_reports %}
+        <div class="reports-table">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Patient</th>
+                        <th>Test Type</th>
+                        <th>Result</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for report in my_reports %}
+                    <tr>
+                        <td>{{ report.report_date.strftime('%Y-%m-%d %H:%M') }}</td>
+                        <td>{{ report.patient_name }}</td>
+                        <td>Diabetes Screening</td>
+                        <td>
+                            <span class="badge {% if report.diabetes_prediction == 'Diabetic' %}badge-danger{% else %}badge-success{% endif %}">
+                                {{ report.diabetes_prediction }}
+                            </span>
+                        </td>
+                        <td>
+                            <button class="btn btn-small" onclick="showDetails('report-{{ report.id }}')">View</button>
+                        </td>
+                    </tr>
+                    <tr id="report-{{ report.id }}" class="details-row" style="display:none;">
+                        <td colspan="5">
+                            <div class="report-details">
+                                <h4>Patient: {{ report.patient_name }}</h4>
+                                <div class="details-grid">
+                                    <div><strong>Glucose:</strong> {{ report.glucose }} mg/dL</div>
+                                    <div><strong>BMI:</strong> {{ report.bmi }}</div>
+                                    <div><strong>Age:</strong> {{ report.age }} years</div>
+                                    <div><strong>Blood Pressure:</strong> {{ report.blood_pressure }} mm Hg</div>
+                                </div>
+                                <div class="explanation-box">
+                                    <p>{{ report.diabetes_explanation }}</p>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <div class="no-data">
+            <p>No reports created yet. Start by creating a diagnosis for a patient.</p>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+<script>
+function showDetails(id) {
+    var element = document.getElementById(id);
+    if (element.style.display === "none") {
+        element.style.display = "table-row";
+    } else {
+        element.style.display = "none";
+    }
+}
+</script>
+{% endblock %}

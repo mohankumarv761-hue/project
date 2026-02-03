@@ -1,0 +1,148 @@
+{% extends "base.html" %}
+
+{% block title %}Patient Dashboard{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1 class="page-title">Welcome, {{ session.full_name }}! 👋</h1>
+    <p class="subtitle">View your medical reports and test results</p>
+
+    <div class="dashboard-section">
+        <h2 class="section-title">📋 Diabetes Screening Reports</h2>
+        {% if diagnosis_reports %}
+        <div class="reports-table">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Doctor</th>
+                        <th>Glucose</th>
+                        <th>BMI</th>
+                        <th>Age</th>
+                        <th>Result</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for report in diagnosis_reports %}
+                    <tr>
+                        <td>{{ report.report_date.strftime('%Y-%m-%d %H:%M') }}</td>
+                        <td>{{ report.doctor_name or 'N/A' }}</td>
+                        <td>{{ report.glucose }}</td>
+                        <td>{{ report.bmi }}</td>
+                        <td>{{ report.age }}</td>
+                        <td>
+                            <span class="badge {% if report.diabetes_prediction == 'Diabetic' %}badge-danger{% else %}badge-success{% endif %}">
+                                {{ report.diabetes_prediction }}
+                            </span>
+                        </td>
+                        <td>
+                            <button class="btn btn-small" onclick="showDetails('diabetes-{{ report.id }}')">View Details</button>
+                        </td>
+                    </tr>
+                    <tr id="diabetes-{{ report.id }}" class="details-row" style="display:none;">
+                        <td colspan="7">
+                            <div class="report-details">
+                                <h4>Complete Report</h4>
+                                <div class="details-grid">
+                                    <div><strong>Pregnancies:</strong> {{ report.pregnancies }}</div>
+                                    <div><strong>Glucose:</strong> {{ report.glucose }} mg/dL</div>
+                                    <div><strong>Blood Pressure:</strong> {{ report.blood_pressure }} mm Hg</div>
+                                    <div><strong>Skin Thickness:</strong> {{ report.skin_thickness }} mm</div>
+                                    <div><strong>Insulin:</strong> {{ report.insulin }} μU/mL</div>
+                                    <div><strong>BMI:</strong> {{ report.bmi }}</div>
+                                    <div><strong>Diabetes Pedigree:</strong> {{ report.diabetes_pedigree_function }}</div>
+                                    <div><strong>Age:</strong> {{ report.age }} years</div>
+                                </div>
+                                <div class="explanation-box">
+                                    <h4>📝 Doctor's Explanation:</h4>
+                                    <p>{{ report.diabetes_explanation }}</p>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <div class="no-data">
+            <p>No diabetes screening reports available yet.</p>
+        </div>
+        {% endif %}
+    </div>
+
+    <div class="dashboard-section">
+        <h2 class="section-title">🩸 Blood Test Reports</h2>
+        {% if blood_tests %}
+        <div class="reports-table">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Doctor</th>
+                        <th>Hemoglobin</th>
+                        <th>WBC Count</th>
+                        <th>Cholesterol</th>
+                        <th>Result</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for test in blood_tests %}
+                    <tr>
+                        <td>{{ test.test_date.strftime('%Y-%m-%d %H:%M') }}</td>
+                        <td>{{ test.doctor_name or 'N/A' }}</td>
+                        <td>{{ test.hemoglobin }}</td>
+                        <td>{{ test.wbc_count }}</td>
+                        <td>{{ test.cholesterol }}</td>
+                        <td>
+                            <span class="badge {% if test.test_result == 'Abnormal' %}badge-danger{% else %}badge-success{% endif %}">
+                                {{ test.test_result }}
+                            </span>
+                        </td>
+                        <td>
+                            <button class="btn btn-small" onclick="showDetails('blood-{{ test.id }}')">View Details</button>
+                        </td>
+                    </tr>
+                    <tr id="blood-{{ test.id }}" class="details-row" style="display:none;">
+                        <td colspan="7">
+                            <div class="report-details">
+                                <h4>Complete Blood Test</h4>
+                                <div class="details-grid">
+                                    <div><strong>Hemoglobin:</strong> {{ test.hemoglobin }} g/dL</div>
+                                    <div><strong>WBC Count:</strong> {{ test.wbc_count }} cells/μL</div>
+                                    <div><strong>RBC Count:</strong> {{ test.rbc_count }} million/μL</div>
+                                    <div><strong>Platelets:</strong> {{ test.platelets }} cells/μL</div>
+                                    <div><strong>Cholesterol:</strong> {{ test.cholesterol }} mg/dL</div>
+                                </div>
+                                <div class="explanation-box">
+                                    <h4>📝 Doctor's Explanation:</h4>
+                                    <p>{{ test.test_explanation }}</p>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <div class="no-data">
+            <p>No blood test reports available yet.</p>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+<script>
+function showDetails(id) {
+    var element = document.getElementById(id);
+    if (element.style.display === "none") {
+        element.style.display = "table-row";
+    } else {
+        element.style.display = "none";
+    }
+}
+</script>
+{% endblock %}
