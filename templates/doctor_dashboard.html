@@ -4,12 +4,12 @@
 
 {% block content %}
 <div class="container">
-    <h1 class="page-title">Welcome, {{ session.full_name }}! 👨‍⚕️</h1>
+    <h1 class="page-title">Welcome, {{ session.full_name }}! </h1>
     <p class="subtitle">Manage patient diagnoses and view reports</p>
 
     <div class="action-buttons">
         <a href="{{ url_for('doctor_diagnosis') }}" class="btn btn-primary">
-            📋 Create Diabetes Screening
+             Create Diabetes Screening
         </a>
         <a href="{{ url_for('doctor_blood_test') }}" class="btn btn-secondary">
             🩸 Create Blood Test Report
@@ -23,8 +23,8 @@
             <div class="patient-card">
                 <div class="patient-icon">👤</div>
                 <h3>{{ patient.full_name }}</h3>
-                <p>📧 {{ patient.email }}</p>
-                <p>📞 {{ patient.phone }}</p>
+                <p> {{ patient.email }}</p>
+                <p> {{ patient.phone }}</p>
                 <p><strong>Patient ID:</strong> {{ patient.id }}</p>
             </div>
             {% endfor %}

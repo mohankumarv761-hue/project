@@ -1,13 +1,3 @@
-"""
-Hospital Management System - Flask Backend
-Main application file with REST APIs for:
-- Authentication (Login)
-- Patient Dashboard
-- Doctor Dashboard
-- Diagnosis Prediction
-- Blood Test Analysis
-"""
-
 from flask import Flask, render_template, request, redirect, url_for, session, jsonify
 import mysql.connector
 from mysql.connector import Error
@@ -16,9 +6,8 @@ import numpy as np
 from datetime import datetime
 
 app = Flask(__name__)
-app.secret_key = 'hospital_secret_key_2024'  # Change this in production
+app.secret_key = 'hospital_secret_key_2024' 
 
-# Database Configuration
 DB_CONFIG = {
     'host': 'localhost',
     'user': 'root',  # Change to your MySQL username
@@ -36,14 +25,13 @@ try:
         blood_test_model = pickle.load(f)
     with open('models/blood_test_scaler.pkl', 'rb') as f:
         blood_test_scaler = pickle.load(f)
-    print("✓ ML Models loaded successfully")
+    print("ML Models loaded successfully")
 except Exception as e:
-    print(f"⚠ Warning: ML Models not found. Please run train_models.py first!")
+    print(f"Warning: ML Models not found. Please run train_models.py first!")
     print(f"Error: {e}")
 
 # Database connection helper
 def get_db_connection():
-    """Create and return database connection"""
     try:
         connection = mysql.connector.connect(**DB_CONFIG)
         return connection
@@ -53,7 +41,6 @@ def get_db_connection():
 
 # Generate explanations for predictions
 def get_diabetes_explanation(prediction, glucose, bmi, age):
-    """Generate patient-friendly explanation for diabetes prediction"""
     if prediction == 1:  # Diabetic
         line1 = "Your test results suggest elevated diabetes risk factors that need medical attention."
         line2 = "Please schedule a consultation with an endocrinologist for proper diagnosis and treatment plan."
@@ -68,7 +55,6 @@ def get_diabetes_explanation(prediction, glucose, bmi, age):
     return f"{line1} {line2}"
 
 def get_blood_test_explanation(prediction, hemoglobin, wbc, cholesterol):
-    """Generate patient-friendly explanation for blood test results"""
     if prediction == 1:  # Abnormal
         line1 = "Some blood parameters are outside the normal range and require medical review."
         line2 = "Consult your doctor to discuss these results and potential treatment or lifestyle changes."
@@ -81,8 +67,6 @@ def get_blood_test_explanation(prediction, hemoglobin, wbc, cholesterol):
             line2 = "Keep up with regular health checkups every 6-12 months to maintain wellness."
     
     return f"{line1} {line2}"
-
-# Routes
 
 @app.route('/')
 def index():
@@ -356,11 +340,9 @@ def doctor_blood_test():
     return render_template('blood_test_form.html', patients=patients)
 
 if __name__ == '__main__':
-    print("\n🏥 Hospital Management System Starting... 🏥")
-    print("=" * 50)
+    print(" Hospital Management System Starting... ")
     print("Make sure to:")
     print("1. Create MySQL database using database_schema.sql")
     print("2. Train ML models using: python train_models.py")
     print("3. Update DB_CONFIG with your MySQL credentials")
-    print("=" * 50)
     app.run(debug=True, port=5000)

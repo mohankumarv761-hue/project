@@ -4,11 +4,11 @@
 
 {% block content %}
 <div class="container">
-    <h1 class="page-title">Welcome, {{ session.full_name }}! 👋</h1>
+    <h1 class="page-title">Welcome, {{ session.full_name }}! </h1>
     <p class="subtitle">View your medical reports and test results</p>
 
     <div class="dashboard-section">
-        <h2 class="section-title">📋 Diabetes Screening Reports</h2>
+        <h2 class="section-title"> Diabetes Testing Reports</h2>
         {% if diagnosis_reports %}
         <div class="reports-table">
             <table>
@@ -55,7 +55,7 @@
                                     <div><strong>Age:</strong> {{ report.age }} years</div>
                                 </div>
                                 <div class="explanation-box">
-                                    <h4>📝 Doctor's Explanation:</h4>
+                                    <h4> Doctor's Explanation:</h4>
                                     <p>{{ report.diabetes_explanation }}</p>
                                 </div>
                             </div>
@@ -117,7 +117,7 @@
                                     <div><strong>Cholesterol:</strong> {{ test.cholesterol }} mg/dL</div>
                                 </div>
                                 <div class="explanation-box">
-                                    <h4>📝 Doctor's Explanation:</h4>
+                                    <h4> Doctor's Explanation:</h4>
                                     <p>{{ test.test_explanation }}</p>
                                 </div>
                             </div>
